@@ -108,6 +108,23 @@ var MessageFormController = /*@ngInject*/ function($scope, $location, $timeout, 
     });
 
     var cb = function(err, messageResponses) {
+      callbacksUntilFinal -= 1;
+      var isFinalCallback;
+      if (callbacksUntilFinal == 0) {
+        isFinalCallback = true;
+      }
+      else {
+        isFinalCallback = false;
+      }
+
+      // post the result to the responses db
+      var loggedMessageResponsesResult = helpers.logResponses(messageResponses);
+
+      if (isFinalCallback && messageResponses == null) {
+        // redirect them to the thanks page
+        $location.path('/thanks');
+      }
+
       var serverErr = !isEmpty(err);
       var hasCaptcha = $scope.repsUseCaptchas(messageResponses);
 
@@ -117,24 +134,49 @@ var MessageFormController = /*@ngInject*/ function($scope, $location, $timeout, 
         if (hasCaptcha) {
           $location.path('/captcha');
         } else {
-          $location.path('/thanks');
+          if (isFinalCallback) {
+            $location.path('/thanks');
+          }
         }
       } else {
         if (err.code === 429) {
           // TODO(sina): show a "too many messages" err
         } else if ((err.code !== 400 && err.code !== 500) && !hasCaptcha) {
-          $location.path('/thanks');
+          if (isFinalCallback) {
+            $location.path('/thanks');
+          }
         } else {
           // TODO(sina): do something here
           $scope.sending = false;
         }
       }
+
+      // if it's the last one sent, forward them to the thanks page anyway
+      if (isFinalCallback) {
+        $location.path('/thanks');
+      }
+
     };
 
     $scope.sending = true;
-    dioAPI.submitMessageToReps(messages, cb);
 
-    if ($scope.joinEmailList) {
+    // log sent messages in db
+    var loggedMessagesResult = helpers.logMessages(messages);
+
+    // submit the messages TODO: reenable this
+    // submit all of the messages independently
+    var numMessages = messages.length;
+    var callbacksUntilFinal = numMessages;
+    for (i = 0; i < numMessages; i++) {
+      var thisMessage = [ messages[i] ];
+      // send this message
+      dioAPI.submitMessageToReps(thisMessage, cb);
+    }
+
+    // original code to send all at once
+    //dioAPI.submitMessageToReps(messages, cb);
+
+    /*if ($scope.joinEmailList) {
       var messageSender = new MessageSender({
         firstName: $scope.formData.firstName,
         lastName: $scope.formData.lastName,
@@ -147,7 +189,8 @@ var MessageFormController = /*@ngInject*/ function($scope, $location, $timeout, 
       dioAPI.subscribeToEFFList(subRequest, function() {
         // no-op as EFF subscription is best-effort only
       });
-    }
+    }*/
+
 	};
 
   /**

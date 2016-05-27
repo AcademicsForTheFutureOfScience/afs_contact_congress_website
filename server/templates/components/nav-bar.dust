@@ -1,7 +1,7 @@
 <nav class="navbar navbar-static">
   <div class="container">
     <div class="navbar-header">
-      <div class="navbar-brand">
+      <div class="navbar-brand" style="padding-bottom:70px;">
         {>"components/svg-logo"/}
       </div>
     </div>

@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Democracy.io - Contact Members of Congress</title>
+  <title>AFS - Save Science by Contacting Congress</title>
   <base href="/">
 
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Send emails to members of the United States House and Senate in just a few easy steps.">
+	<meta name="description" content="Help the U.S. science funding crisis by contacting Congress.">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -17,22 +17,47 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
-  <meta property='og:url' content='https://democracy.io/'>
-  <meta property='og:title' content='Democracy.io - Contact your Members of Congress'>
-  <meta property='og:description' content="Democracy thrives when people’s voices are heard. Send a message to your legislatures using EFF's simple new tool.">
-  <meta property='og:image' content='https://democracy.io/static/{CONFIG.VERSION}/img/opengraph.jpg'>
+  <meta property='og:url' content='http://www.save-science.org/'>
+  <meta property='og:title' content='Academics for the Future of Science - Contact your Members of Congress'>
+  <meta property='og:description' content="Science thrives when people's voices are heard. Send a message to Congress and help save science.">
+  <meta property='og:image' content='/static/{CONFIG.VERSION}/img/opengraph.jpg'>
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@eff">
-  <meta name="twitter:creator" content="@eff">
-  <meta name="twitter:title" content="Democracy.io: Contact Congress easily">
-  <meta name="twitter:description" content="Democracy thrives when people’s voices are heard. Contact your representatives simply and easily.">
-  <meta name="twitter:image" content="https://democracy.io/static/{CONFIG.VERSION}/img/opengraph.jpg">
+  <meta name="twitter:site" content="@SaveScience">
+  <meta name="twitter:creator" content="@SaveScience">
+  <meta name="twitter:title" content="AFS: Contact Congress and Save Science">
+  <meta name="twitter:description" content="Help the U.S. science funding crisis by contacting Congress.">
+  <meta name="twitter:image" content="/static/{CONFIG.VERSION}/img/opengraph.jpg">
 
   <link rel="stylesheet" href="/static/{CONFIG.VERSION}/css/dio.min.css" />
+
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67207823-1', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+
+  <!-- Load jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 
 <body>
+  <!-- Facebook JavaScript SDK -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
   {+body /}
 </body>
 

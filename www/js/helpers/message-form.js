@@ -87,6 +87,12 @@ var makeMessageInfo = function(legislator, formData, topic) {
       topic.selected : topic.optionsHash[topic.selected];
   }
 
+  // Fill the user's name in the closing
+  if (formData.message.indexOf("[Your Name]") > -1) {
+    var new_name = formData.firstName + ' ' + formData.lastName;
+    formData.message = formData.message.replace("[Your Name]", new_name);
+  }
+
   return {
     topic: topicValue,
     subject: formData.subject,
@@ -201,16 +207,59 @@ var getTopicOptions = function(legislatorsFormElements, legislators) {
 var createFormFields = function(legislatorsFormElements, legislators, address) {
   var countyData = getCountyData(legislatorsFormElements, address.county);
 
+  var prefilledMessage = "As a supporter of US science and a constituent, I urge Congress to cement America's global economic and innovation leadership by making reliable investments in the science, engineering, and technology enterprise.\n\nThe federal R&D budget has been declining to historic lows as a percent of the total federal budget. This is having a real impact on science in this country. Researchers now spend unprecedented amounts of time struggling for funding instead of working towards new cures and technologies. Young scientists are having a particularly hard time securing a future in academic science and are leaving US universities and moving to other countries. The atmosphere within academia is one of growing pessimism about the viability of being a scientist in this country. The standing of the US as an innovation leader is at risk.\n\nWe are at a critical point in history. Although the nation faces long-term fiscal challenges that must be addressed, our economic competitiveness depends on a robust research enterprise. I strongly encourage you to work with your fellow lawmakers to negotiate a budget agreement that creates reliable fixed increases in science funding. Maintaining rigid restrictions on research budgets is short-sighted and will only increase the United States' innovation deficit and constrain the economic growth that creates jobs and enhances the quality of life of Americans. Large fluctuations in science funding are also bad for science as they create jobs and science projects that then can’t be completed. I urge you to support steady and sustained real growth in research funding to enable tomorrow’s discoveries and foster U.S. innovation and global competitiveness.\n\nSincerely,\n[Your Name]";
+
   var formFieldData = {
     countyData: countyData,
     formData: {
       prefix: 'Ms',
-      county: countyData.selected
+      county: countyData.selected,
+      subject: 'Funding for Academic Research',
+      message: prefilledMessage
     },
     topicOptions: getTopicOptions(legislatorsFormElements, legislators)
   };
 
   return formFieldData;
+};
+
+
+/**
+ * Send the messages to the PHP logging script.
+ */
+var logMessages = function(messages) {
+  var script_location = "/aftfos_scripts/log_messages_server.php";
+  var json_message_data = JSON.stringify(messages);
+
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    url: script_location,
+    data: { data : json_message_data },
+    success: function(data) {
+    }
+  });
+
+  return true;
+};
+
+/**
+ * Send the responses to the PHP logging script.
+ */
+var logResponses = function(messageResponses) {
+  var script_location = "/aftfos_scripts/message_database_responses.php";
+  var json_message_data = JSON.stringify(messageResponses);
+
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    url: script_location,
+    data: { data : json_message_data },
+    success: function(data) {
+    }
+  });
+
+  return true;
 };
 
 
@@ -226,3 +275,6 @@ module.exports.makeMessage = makeMessage;
 module.exports.makeSenderInfo = makeSenderInfo;
 module.exports.makeMessageInfo = makeMessageInfo;
 module.exports.makeCampaignInfo = makeCampaignInfo;
+
+module.exports.logMessages = logMessages;
+module.exports.logResponses = logResponses;

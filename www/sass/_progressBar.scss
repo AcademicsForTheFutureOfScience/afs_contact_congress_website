@@ -57,21 +57,21 @@ div#progress-bar {
   stroke-width: 0;
 }
 #wrapper[data-pagename="home"] {
-  #pb-dot-1 { fill: $pink; }
+  #pb-dot-1 { fill: #F36D4F; }
   #progress-bar .labels .first { @extend .label.active;}
 }
 #wrapper[data-pagename="location"] {
-  #pb-dot-2, #pb-check-1 { fill: $pink; }
+  #pb-dot-2, #pb-check-1 { fill: #F36D4F; }
   #progress-bar .labels .second { @extend .label.active; }
 }
 #wrapper[data-pagename="compose"] {
-  #pb-dot-3, #pb-check-1, #pb-check-2 { fill: $pink; }
+  #pb-dot-3, #pb-check-1, #pb-check-2 { fill: #F36D4F; }
   #progress-bar .labels .third { @extend .label.active; }
 }
 #wrapper[data-pagename="captcha"] {
-  #pb-dot-3, #pb-check-1, #pb-check-2 { fill: $pink; }
+  #pb-dot-3, #pb-check-1, #pb-check-2 { fill: #F36D4F; }
   #progress-bar .labels .third { @extend .label.active; }
 }
 #wrapper[data-pagename="thanks"] {
-  #pb-check-3, #pb-check-1, #pb-check-2 { fill: $pink; }
+  #pb-check-3, #pb-check-1, #pb-check-2 { fill: #F36D4F; }
 }

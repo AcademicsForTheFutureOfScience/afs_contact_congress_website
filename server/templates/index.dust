@@ -19,9 +19,9 @@
         <div ng-switch-when="home"
              class="header"
              dio-write-to-them-animation=""
-             animate-msg="Write to your representatives"
+             animate-msg="Help Save Science"
              initial-delay="500"
-             speed="30"
+             speed="40"
              show-full="pageFrom !== 'new-visit'">
         </div>
         <h1 ng-switch-when="location" 

@@ -20,10 +20,20 @@ var makeSmartyStreetsUrl = function(baseURL, pathname, params, config) {
   return url.format(ssURL);
 };
 
+var makeGeocodingLocalUrl = function(baseURL, pathname, params, config) {
+  var ssURL = url.parse(baseURL);
+  ssURL.pathname = pathname;
+
+  ssURL.query = params;
+
+  return url.format(ssURL);
+};
+
 
 var verifyAddress = function(params, config, cb) {
-  var ssURL = makeSmartyStreetsUrl(
-    config.API.SMARTY_STREETS.ADDRESS_URL, 'street-address', params, config);
+  var ssURL = makeSmartyStreetsUrl(config.API.SMARTY_STREETS.ADDRESS_URL, 'street-address', params, config);
+
+  //var ssURL = makeGeocodingLocalUrl(config.API.SMARTY_STREETS.ADDRESS_URL, '', params, config);
 
   var params = {
     method: 'GET',
@@ -35,4 +45,5 @@ var verifyAddress = function(params, config, cb) {
 
 
 module.exports.makeSmartyStreetsUrl = makeSmartyStreetsUrl;
+module.exports.makeGeocodingLocalUrl = makeGeocodingLocalUrl;
 module.exports.verifyAddress = verifyAddress;
