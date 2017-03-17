@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars:
+    - redis_bind: 127.0.0.1
+  roles:
+    - role: DavidWittman.redis
+      redis_verify_checksum: false
+      sudo: yes
