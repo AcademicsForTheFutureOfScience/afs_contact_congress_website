@@ -1,8 +1,18 @@
 ---
 - hosts: all
-  vars:
-    - redis_bind: 127.0.0.1
+  become: true
+  become_method: sudo
+
+  pre_tasks:
+    - user:
+       name: science
+
   roles:
-    - role: DavidWittman.redis
-      redis_verify_checksum: false
-      sudo: yes
+    - role: geerlingguy.redis
+      redis_bind_interface: 127.0.0.1
+
+    - role: geerlingguy.nodejs
+      nodejs_version: "0.12"
+      nodejs_install_npm_user: "science"
+      become: true
+      become_method: sudo
