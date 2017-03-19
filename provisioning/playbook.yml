@@ -17,3 +17,19 @@
       nodejs_install_npm_user: "science"
       become: true
       become_method: sudo
+
+  #...only JS would require git on a webserver
+  # (ok, usually you build elsewhere... w/e)
+  tasks:
+    - name: Install git, because javascript
+      package:
+        name: git
+        state: latest
+
+    - name: Ensure hosting directory exists
+      file:
+        path: /home/science/www
+        owner: science
+        group: science
+        state: directory
+        mode: 0755
