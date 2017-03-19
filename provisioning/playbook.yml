@@ -6,6 +6,7 @@
   pre_tasks:
     - user:
        name: science
+       password: sfdmdr4MFuaoE
 
   roles:
     - role: geerlingguy.redis
