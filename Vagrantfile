@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
      vb.name = "save-science"
-     vb.memory = "512"
+     vb.memory = "1536"
   end
 
   config.vm.provision "ansible" do |ansible|
