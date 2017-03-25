@@ -16,8 +16,9 @@
     - role: geerlingguy.nodejs
       nodejs_version: "0.12"
       nodejs_install_npm_user: "science"
-      become: true
-      become_method: sudo
+
+    - role: geerlingguy.apache
+      apache_listen_port_ssl: 443
 
   #...only JS would require git on a webserver
   # (ok, usually you build elsewhere... w/e)
