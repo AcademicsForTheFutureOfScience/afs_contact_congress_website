@@ -13,8 +13,11 @@ app = Flask(__name__, static_folder='/visualizations')
 app.config.from_object(Config)
 
 
-states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS',
-          'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+          'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA',
+          'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY',
+          'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+          'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
 
 def crossdomain(origin=None, methods=None, headers=None,
@@ -71,7 +74,7 @@ def get_state_counts():
     for (state, count) in result:
         state_to_count[state] = count
     # fill in zeroes for other states
-    for state in states:
+    for state in STATES:
         if not state in state_to_count:
             state_to_count[state] = 0
     return state_to_count
