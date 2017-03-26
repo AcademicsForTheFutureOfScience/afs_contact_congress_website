@@ -7,17 +7,25 @@ from functools import update_wrapper
 from flask import Flask, request, send_from_directory, make_response, current_app
 import pymysql
 
-import prod_config import Config
-
-app = Flask(__name__, static_folder='/visualizations')
-app.config.from_object(Config)
-
 
 STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
           'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA',
           'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY',
           'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
           'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+
+
+def create_app(environment):
+    app = Flask(__name__, static_folder='/visualizations')
+
+    if environment == "prod":
+        from config.prod import Config
+    else:
+        from config.dev import Config
+
+    app.config.from_object(Config)
+
+    return app
 
 
 def crossdomain(origin=None, methods=None, headers=None,
@@ -62,17 +70,18 @@ def crossdomain(origin=None, methods=None, headers=None,
     return decorator
 
 
-def get_state_counts():
-        # Open database connection
-    db = MySQLdb.connect(db_host, db_username, db_password, db_database)
-    cursor = db.cursor()
+def get_state_counts(conn):
+    # Open database connection
+    cursor = conn.cursor()
     query = "SELECT stateabbreviation, COUNT(*) AS `num` FROM messages GROUP BY stateabbreviation;"
     cursor.execute(query)
     result = cursor.fetchall()
     db.close()
+
     state_to_count = {}
     for (state, count) in result:
         state_to_count[state] = count
+
     # fill in zeroes for other states
     for state in STATES:
         if not state in state_to_count:
@@ -93,9 +102,16 @@ def api_send_js():
 @app.route('/get-state-counts')
 @crossdomain(origin='*')
 def api_get_state_counts():
-    state_to_count = get_state_counts()
+    conn = MySQLdb.connect(app.db_host,
+                           app.db_username,
+                           app.db_password,
+                           app.db_database,
+                           )
+
+    state_to_count = get_state_counts(conn)
     return json.dumps(state_to_count)
 
 
 if __name__ == '__main__':
+    app = create_app("prod")
     app.run(host='0.0.0.0', port=5001)
