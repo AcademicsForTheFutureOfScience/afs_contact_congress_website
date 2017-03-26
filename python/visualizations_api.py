@@ -1,12 +1,16 @@
-from flask import Flask, request, send_from_directory, make_response, current_app
-from datetime import timedelta
-from functools import update_wrapper
 import json
-import MySQLdb
 import urllib
 import urllib2
+from datetime import timedelta
+from functools import update_wrapper
+
+from flask import Flask, request, send_from_directory, make_response, current_app
+import pymysql
+
+import prod_config import Config
 
 app = Flask(__name__, static_folder='/visualizations')
+app.config.from_object(Config)
 
 
 states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS',
