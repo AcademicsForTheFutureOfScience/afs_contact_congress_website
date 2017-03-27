@@ -7,7 +7,10 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.97.10"
 
-  # config.vm.synced_folder "../data", "/mnt/vagrant_data"
+  config.vm.synced_folder "node", "/mnt/www/node",
+    id: "node"
+  config.vm.synced_folder "python", "/mnt/www/python",
+    id: "python"
 
   config.vm.provider "virtualbox" do |vb|
      vb.name = "save-science"
