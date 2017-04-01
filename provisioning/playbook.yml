@@ -37,8 +37,8 @@
         name: "{{item}}"
         state: latest
       with_items:
-          - git
-          - node-gyp
+        - git
+        - node-gyp
 
     - name: Ensure hosting directory exists
       file:
