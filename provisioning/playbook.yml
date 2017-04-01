@@ -63,3 +63,15 @@
       with_items:
         - python
         - node
+
+    - name: Copy apache configs
+      copy:
+        src: ../apache2/sites-available/000-default.conf
+        dest: /etc/apache2/sites-enabled
+
+    - name: Start node service
+      shell: nohup node server.js > ../logs/node.out 2>&1 &
+      args:
+        chdir: /home/science/www/node
+      become: true
+      become_user: science
