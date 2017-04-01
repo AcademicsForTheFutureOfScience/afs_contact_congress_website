@@ -18,7 +18,16 @@
       nodejs_install_npm_user: "science"
 
     - role: geerlingguy.apache
-      apache_listen_port_ssl: 443
+      apache_remove_default_vhost: true
+      apache_create_vhosts: true
+      apache_mods_enabled:
+        - proxy.conf
+        - proxy.load
+        - proxy_http.load
+        - reqtimeout.conf
+        - reqtimeout.load
+
+    - role: geerlingguy.mysql
 
   #...only JS would require git on a webserver
   # (ok, usually you build elsewhere... w/e)
