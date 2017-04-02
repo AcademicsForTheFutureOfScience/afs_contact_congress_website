@@ -66,11 +66,8 @@
 
     - name: Copy apache configs
       copy:
-        src: files/{{item}}
+        src: files/save-science.conf
         dest: /etc/apache2/sites-enabled
-      with_items:
-        - save-science.conf
-        - blog.save-science.conf
 
     - name: Start node service
       shell: nohup node server.js > ../logs/node.out 2>&1 &
