@@ -10,6 +10,8 @@
        shell: /bin/bash
 
   roles:
+    - role: geerlingguy.mysql
+
     - role: geerlingguy.redis
       redis_bind_interface: 127.0.0.1
 
@@ -26,8 +28,6 @@
         - proxy_http.load
         - reqtimeout.conf
         - reqtimeout.load
-
-    - role: geerlingguy.mysql
 
   #...only JS would require git on a webserver
   # (ok, usually you build elsewhere... w/e)
