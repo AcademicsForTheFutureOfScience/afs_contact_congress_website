@@ -58,7 +58,7 @@
         name: /home/science/www/{{item}}
         src: "{{item}}"
         fstype: vboxsf
-        opts: uid=science,gid=science,rw
+        opts: uid=science,gid=science,rw,_netdev
         state: mounted
       with_items:
         - python
