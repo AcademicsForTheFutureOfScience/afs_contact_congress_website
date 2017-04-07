@@ -73,6 +73,7 @@
       copy:
         src: files/save-science.conf
         dest: /etc/apache2/sites-enabled
+      notify: Reload apache configs
 
     - name: Start node service
       shell: nohup node server.js > ../logs/node.out 2>&1 &
@@ -80,3 +81,9 @@
         chdir: /home/science/www/node
       become: true
       become_user: science
+
+  handlers:
+    - name: Reload apache configs
+      service:
+        name: apache2
+        state: reloaded
