@@ -76,7 +76,7 @@
       notify: Reload apache configs
 
     - name: Start node service
-      shell: nohup node server.js > ../logs/node.out 2>&1 &
+      shell: nohup node server.js > /home/science/www/logs/node.out 2>&1 &
       args:
         chdir: /home/science/www/node
       become: true
