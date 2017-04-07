@@ -64,6 +64,11 @@
         - python
         - node
 
+    - name: Node setup
+      shell: |
+        npm install
+        npm run build
+
     - name: Copy apache configs
       copy:
         src: files/save-science.conf
