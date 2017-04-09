@@ -3,7 +3,7 @@ Democracy.io
 
 [![Build Status](https://travis-ci.org/EFForg/democracy.io.svg?branch=master)](https://travis-ci.org/EFForg/democracy.io)
 
-Express & Angular app for sending messages to Senate and House members
+Express & Angular app for sending messages to Senate and House members.
 
 (c) 2015 Electronic Frontier Foundation
 

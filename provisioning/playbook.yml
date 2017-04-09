@@ -9,6 +9,18 @@
        password: sfdmdr4MFuaoE
        shell: /bin/bash
 
+    - name: Update repos
+      apt:
+        update_cache: yes
+
+    - name: Bind synced folders to hosting directory
+      mount:
+        name: /vagrant
+        src: vagrant
+        fstype: vboxsf
+        opts: uid=vagrant,gid=vagrant,rw,_netdev
+        state: present
+
   roles:
     - role: geerlingguy.mysql
 
