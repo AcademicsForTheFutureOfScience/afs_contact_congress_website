@@ -24,6 +24,7 @@ MessageResponse.prototype.setProperties = function(options) {
   this.status = options.status;
   this.url = options.url;
   this.uid = options.uid;
+  this.message = options.message;
 };
 
 
