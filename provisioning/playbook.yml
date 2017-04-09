@@ -52,6 +52,12 @@
         - git
         - node-gyp
 
+    - name: Copy apache configs
+      copy:
+        src: files/save-science.conf
+        dest: /etc/apache2/sites-enabled
+      notify: Reload apache configs
+
     - name: Ensure hosting directory exists
       file:
         path: "{{item}}"
@@ -80,12 +86,6 @@
       shell: |
         npm install
         npm run build
-
-    - name: Copy apache configs
-      copy:
-        src: files/save-science.conf
-        dest: /etc/apache2/sites-enabled
-      notify: Reload apache configs
 
     - name: Start node service
       shell: nohup node server.js > /home/science/www/logs/node.out 2>&1 &
