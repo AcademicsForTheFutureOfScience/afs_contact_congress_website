@@ -82,19 +82,6 @@
         - python
         - node
 
-    - name: Node setup
-      shell: |
-        cd www/node
-        npm install
-        npm run build
-
-    - name: Start node service
-      shell: nohup node server.js > /home/science/www/logs/node.out 2>&1 &
-      args:
-        chdir: /home/science/www/node
-      become: true
-      become_user: science
-
   handlers:
     - name: Reload apache configs
       service:
