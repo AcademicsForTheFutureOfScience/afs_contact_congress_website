@@ -84,6 +84,7 @@
 
     - name: Node setup
       shell: |
+        cd www/node
         npm install
         npm run build
 
