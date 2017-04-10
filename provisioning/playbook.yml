@@ -8,6 +8,7 @@
        name: science
        password: sfdmdr4MFuaoE
        shell: /bin/bash
+       groups: sudo
 
     - name: Update repos
       apt:
