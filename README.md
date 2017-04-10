@@ -26,3 +26,14 @@ Instructions for commandline:
 
 Once this completes, visit http://localhost:8080 in your favorite browser. You
 should see the save-science landing page.
+
+## Credentials:
+The web-application runs as the science user. Should you need access to the box
+as that user, you can run `ssh science@192.168.97.10`.
+
+    * `user`: science
+
+    * `password`: science
+
+To log in as the vagrant user, you can also use `vagrant ssh` from within the
+website repository.
