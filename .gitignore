@@ -1,4 +1,12 @@
 .build
+.vagrant
+venv
+
+# Editor scratch files
+*~
+\#*\#
+*.swo
+*.swp
 
 # Logs
 logs

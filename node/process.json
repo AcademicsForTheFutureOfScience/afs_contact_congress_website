@@ -1,0 +1,18 @@
+{
+  "apps": [{
+    "name": "webapp",
+    "script": "/home/science/www/node/server.js",
+    "cwd": "/home/science/www/node",
+    "watch": "/home/science/www/node/",
+    "watch_options": {
+      "usePolling": true
+    },
+    "ignore_watch": "/home/science/www/node/node_modules",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "env_production": {
+       "NODE_ENV": "production"
+    }
+  }]
+}

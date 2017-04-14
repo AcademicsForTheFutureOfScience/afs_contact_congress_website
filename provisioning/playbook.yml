@@ -1,0 +1,120 @@
+---
+- hosts: all
+  become: true
+  become_method: sudo
+
+  pre_tasks:
+    - user:
+       name: science
+       password: sfdmdr4MFuaoE
+       shell: /bin/bash
+       groups: sudo
+
+    - name: Update repos
+      apt:
+        update_cache: yes
+
+    - name: Bind synced folders to hosting directory
+      mount:
+        name: /vagrant
+        src: vagrant
+        fstype: vboxsf
+        opts: uid=vagrant,gid=vagrant,rw,_netdev
+        state: present
+
+  roles:
+    - role: geerlingguy.mysql
+
+    - role: geerlingguy.redis
+      redis_bind_interface: 127.0.0.1
+
+    - role: geerlingguy.nodejs
+      nodejs_version: "0.12"
+      nodejs_install_npm_user: "science"
+
+    - role: geerlingguy.apache
+      apache_remove_default_vhost: true
+      apache_create_vhosts: true
+      apache_mods_enabled:
+        - proxy.conf
+        - proxy.load
+        - proxy_http.load
+        - reqtimeout.conf
+        - reqtimeout.load
+
+  #...only JS would require git on a webserver
+  # (ok, usually you build elsewhere... w/e)
+  tasks:
+    - name: Install git, because javascript
+      package:
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - git
+        - node-gyp
+
+    - name: Copy apache configs
+      copy:
+        src: files/save-science.conf
+        dest: /etc/apache2/sites-enabled
+      notify: Reload apache configs
+
+    - name: Ensure hosting directory exists
+      file:
+        path: "{{item}}"
+        owner: science
+        group: science
+        state: directory
+        mode: 0755
+      with_items:
+        - /home/science/www
+        - /home/science/www/logs
+        - /home/science/www/node
+        - /home/science/www/python
+
+    - name: Bind synced folders to hosting directory
+      mount:
+        name: /home/science/www/{{item}}
+        src: "{{item}}"
+        fstype: vboxsf
+        opts: uid=science,gid=science,rw,_netdev
+        state: mounted
+      with_items:
+        - python
+        - node
+
+    - name: Install site dependencies
+      npm:
+        path: /home/science/www/node
+        global: no
+      become: true
+      become_user: science
+      become_method: sudo
+
+    - name: Build the site
+      shell: npm install
+      args:
+        chdir: /home/science/www/node
+      become: true
+      become_user: science
+      become_method: sudo
+
+    - name: Install pm2
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Start the webapp
+      shell: pm2 start process.json
+      args:
+        chdir: /home/science/www/node
+      become: true
+      become_user: science
+      become_method: sudo
+      notify: Reload apache configs
+
+  handlers:
+    - name: Reload apache configs
+      service:
+        name: apache2
+        state: reloaded
