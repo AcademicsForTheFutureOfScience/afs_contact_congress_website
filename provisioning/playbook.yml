@@ -83,6 +83,36 @@
         - python
         - node
 
+    - name: Install site dependencies
+      npm:
+        path: /home/science/www/node
+        global: no
+      become: true
+      become_user: science
+      become_method: sudo
+
+    - name: Build the site
+      shell: npm install
+      args:
+        chdir: /home/science/www/node
+      become: true
+      become_user: science
+      become_method: sudo
+
+    - name: Install pm2
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Start the webapp
+      shell: pm2 start process.json
+      args:
+        chdir: /home/science/www/node
+      become: true
+      become_user: science
+      become_method: sudo
+      notify: Reload apache configs
+
   handlers:
     - name: Reload apache configs
       service:
